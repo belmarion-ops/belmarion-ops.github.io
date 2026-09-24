@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.projectnobody.founderqa",
+      "sha256_cert_fingerprints": [
+        "96:96:31:3E:C9:1D:6B:EA:6B:A6:CB:01:60:5F:00:F6:3F:DB:C0:49:1E:73:BD:DC:17:03:5E:0F:DF:64:87:9C"
+      ]
+    }
+  }
+]
