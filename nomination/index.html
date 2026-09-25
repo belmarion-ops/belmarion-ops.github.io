@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>BELMARION</title>
+  <style>
+    :root{color-scheme:dark;background:#000;color:#f2f2f2;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#000}
+    body{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:max(28px,env(safe-area-inset-top)) 28px max(28px,env(safe-area-inset-bottom));text-transform:uppercase}
+    main{width:min(100%,430px);display:flex;flex-direction:column;align-items:stretch}
+    .brand{text-align:center;font-size:15px;line-height:1.4;letter-spacing:.32em;font-weight:700;margin-bottom:64px}
+    .screen{display:none}
+    .screen.active{display:block}
+    h1{font-size:13px;line-height:1.55;letter-spacing:.14em;margin:0 0 24px;font-weight:700;text-align:center}
+    p{font-size:13px;line-height:1.75;letter-spacing:.025em;color:#a3a3a3;margin:0 0 16px;text-align:center}
+    .actions{margin-top:42px}
+    button,input{width:100%;border-radius:2px;background:#000;color:#f2f2f2;font:inherit;text-transform:uppercase}
+    button{min-height:58px;border:1px solid #c8c8c8;font-size:12px;font-weight:700;letter-spacing:.12em;padding:16px;cursor:pointer}
+    button:disabled{border-color:#3a3a3a;color:#5f5f5f;cursor:default}
+    label{display:block;color:#a3a3a3;font-size:10px;line-height:1.5;letter-spacing:.14em;margin:34px 0 10px}
+    input{height:58px;border:1px solid #3a3a3a;padding:0 14px;font-size:14px;letter-spacing:.04em;outline:none;text-transform:none}
+    input:focus{border-color:#c8c8c8}
+    .error{min-height:22px;margin-top:14px;color:#a3a3a3;font-size:10px;line-height:1.5;letter-spacing:.08em;text-align:center}
+  </style>
+</head>
+<body>
+<main aria-live="polite">
+  <div class="brand">BELMARION</div>
+
+  <section id="loading" class="screen active">
+    <h1>PRIVATE CONSIDERATION</h1>
+  </section>
+
+  <section id="intro" class="screen">
+    <h1>PRIVATE CONSIDERATION</h1>
+    <p>A BELMARION PRINCIPAL HAS PUT YOU FORWARD FOR CONSIDERATION.</p>
+    <p>ACCESS IS NOT GUARANTEED.</p>
+    <div class="actions"><button id="continue" type="button">CONTINUE</button></div>
+  </section>
+
+  <section id="contact" class="screen">
+    <h1>CONTACT</h1>
+    <p>WHO SHOULD BELMARION CONTACT REGARDING YOUR CONSIDERATION?</p>
+    <p>THIS MAY BE YOUR OFFICE, REPRESENTATIVE OR YOU.</p>
+    <label for="email">CONTACT EMAIL</label>
+    <input id="email" type="email" inputmode="email" autocomplete="email" maxlength="254" spellcheck="false">
+    <div id="contact-error" class="error"></div>
+    <div class="actions"><button id="submit" type="button">SUBMIT CONTACT</button></div>
+  </section>
+
+  <section id="complete" class="screen">
+    <h1>REQUEST RECEIVED</h1>
+    <p>BELMARION OPERATIONS WILL CONTINUE PRIVATELY WITH THE CONTACT PROVIDED.</p>
+  </section>
+
+  <section id="inactive" class="screen">
+    <h1>PRIVATE CONSIDERATION</h1>
+    <p>THIS NOMINATION IS NOT ACTIVE.</p>
+  </section>
+</main>
+<script>
+(() => {
+  const endpoint = 'https://nxjqyijykcnxlwoxanrb.supabase.co/functions/v1/belmarion-nomination';
+  const params = new URLSearchParams(location.search);
+  const token = (params.get('t') || '').trim().toLowerCase();
+  history.replaceState({}, '', '/nomination/');
+  const screens = [...document.querySelectorAll('.screen')];
+  const show = id => screens.forEach(node => node.classList.toggle('active', node.id === id));
+  const request = async body => {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(body),
+      cache: 'no-store',
+      credentials: 'omit',
+      referrerPolicy: 'no-referrer'
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'unavailable');
+    return data;
+  };
+  const validEmail = value => /^\S+@\S+\.\S+$/.test(value) && value.length <= 254;
+
+  if (!/^[a-f0-9]{48}$/.test(token)) { show('inactive'); return; }
+  request({action:'open', token}).then(() => show('intro')).catch(() => show('inactive'));
+
+  document.getElementById('continue').addEventListener('click', () => show('contact'));
+  document.getElementById('submit').addEventListener('click', async () => {
+    const input = document.getElementById('email');
+    const error = document.getElementById('contact-error');
+    const button = document.getElementById('submit');
+    const email = input.value.trim().toLowerCase();
+    error.textContent = '';
+    if (!validEmail(email)) { error.textContent = 'ENTER A VALID CONTACT EMAIL.'; return; }
+    button.disabled = true;
+    try {
+      await request({action:'submit_contact', token, contactEmail:email});
+      input.value = '';
+      show('complete');
+    } catch {
+      error.textContent = 'BELMARION IS TEMPORARILY UNAVAILABLE. TRY AGAIN.';
+      button.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
