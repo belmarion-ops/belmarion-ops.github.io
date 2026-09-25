@@ -4,35 +4,56 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <title>BELMARION</title>
   <style>
-    :root{color-scheme:dark}
+    :root{color-scheme:dark;--canvas:#000;--surface:#050505;--border:#3a3a3a;--active:#c8c8c8;--text:#f2f2f2;--muted:#a3a3a3;--ghost:#5f5f5f}
     *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:#000;color:#ededed}
-    body{min-height:100vh;display:grid;place-items:center;padding:28px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
-    main{text-align:center;max-width:34rem}
-    .brand{font-size:1.05rem;letter-spacing:.32em;margin:0 0 2.25rem}
-    .title{font-size:.9rem;letter-spacing:.20em;margin:0 0 1rem}
-    .line{font-size:.72rem;letter-spacing:.12em;color:#707070;line-height:1.8;margin:0}
+    html,body{margin:0;min-height:100%;background:var(--canvas);color:var(--text)}
+    body{min-height:100dvh;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;text-transform:uppercase;padding:28px 28px 24px}
+    main{width:min(100%,420px);min-height:calc(100dvh - 52px);margin:0 auto;display:flex;flex-direction:column}
+    .top{display:flex;justify-content:center;min-height:64px;align-items:flex-start}
+    .brand{margin:8px 0 0;font-size:13px;line-height:19px;letter-spacing:3.2px;font-weight:700}
+    .center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding-bottom:36px}
+    .title{margin:0;font-size:13px;line-height:19px;letter-spacing:1.5px;font-weight:700}
+    .label{margin:34px 0 0;font-size:10px;line-height:15px;letter-spacing:1.65px;color:var(--muted);font-weight:400}
+    .word{margin:18px 0 0;font-size:16px;line-height:23px;letter-spacing:1.4px;font-weight:400;color:var(--text)}
+    .support{margin:18px 0 0;font-size:10px;line-height:15px;letter-spacing:1.65px;color:var(--muted);font-weight:400;max-width:330px}
+    .bottom{display:grid;gap:18px}
+    .action{display:flex;min-height:58px;align-items:center;justify-content:center;padding:13px 16px;border:1px solid var(--border);background:var(--surface);color:var(--muted);text-decoration:none;font-size:13px;line-height:19px;letter-spacing:1.5px;font-weight:700;text-align:center;overflow:hidden;-webkit-tap-highlight-color:transparent}
+    .action:active,.action:focus-visible{border-color:var(--active);color:var(--text);outline:none}
+    .powered{margin:0;text-align:center;font-size:10px;line-height:15px;letter-spacing:1.65px;color:var(--ghost);font-weight:400}
+    [hidden]{display:none!important}
   </style>
 </head>
 <body>
   <main>
-    <p class="brand">BELMARION</p>
-    <div id="cipher" hidden>
-      <p class="title">CIPHER PRESENT.</p>
-      <p class="line">Open this Cipher on a device with Belmarion installed.</p>
-    </div>
-    <div id="closed">
+    <div class="top"><p class="brand">BELMARION</p></div>
+    <section id="cipher" class="center" hidden aria-live="polite">
+      <p class="title">CIPHER ISSUED.</p>
+      <p class="label">SECRET WORD</p>
+      <p class="word" aria-label="Secret word supplied separately">•••••••••</p>
+      <p class="support">YOUR SECRET WORD IS PROVIDED SEPARATELY.</p>
+    </section>
+    <section id="closed" class="center" aria-live="polite">
       <p class="title">CLOSED.</p>
-      <p class="line">A current Cipher is required.</p>
+      <p class="support">A CURRENT CIPHER IS REQUIRED.</p>
+    </section>
+    <div id="cipherBottom" class="bottom" hidden>
+      <a id="open" class="action" href="/cipher/">OPEN BELMARION</a>
+      <p class="powered">POWERED BY NOTHING INTELLIGENCE</p>
     </div>
+    <div id="closedBottom" class="bottom"><p class="powered">POWERED BY NOTHING INTELLIGENCE</p></div>
   </main>
   <script>
-    if (location.pathname.startsWith('/cipher/')) {
-      document.getElementById('cipher').hidden = false;
-      document.getElementById('closed').hidden = true;
+    const match=location.pathname.match(/^\/cipher\/([0-9a-f]{48})\/?$/i);
+    if(match){
+      document.getElementById('cipher').hidden=false;
+      document.getElementById('closed').hidden=true;
+      document.getElementById('cipherBottom').hidden=false;
+      document.getElementById('closedBottom').hidden=true;
+      document.getElementById('open').href=`https://belmarion-ops.github.io/cipher/${match[1].toLowerCase()}`;
     }
   </script>
 </body>
