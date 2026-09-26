@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+  <title>BELMARION</title>
+  <style>
+    :root{color-scheme:dark;--canvas:#000;--surface:#050505;--border:#3a3a3a;--active:#c8c8c8;--text:#f2f2f2;--muted:#a3a3a3;--ghost:#5f5f5f}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--canvas);color:var(--text)}
+    body{min-height:100dvh;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;text-transform:uppercase;padding:28px 28px 24px}
+    main{width:min(100%,420px);min-height:calc(100dvh - 52px);margin:0 auto;display:flex;flex-direction:column}
+    .top{display:flex;justify-content:center;min-height:64px;align-items:flex-start}
+    .brand{margin:8px 0 0;font-size:13px;line-height:19px;letter-spacing:3.2px;font-weight:700}
+    .center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding-bottom:36px}
+    .title{margin:0;font-size:13px;line-height:19px;letter-spacing:1.5px;font-weight:700}
+    .body{margin:18px 0 0;font-size:14px;line-height:22px;letter-spacing:.3px;color:var(--muted);font-weight:400;max-width:390px}
+    .fieldWrap{width:100%;margin-top:30px;text-align:left}
+    .fieldLabel{display:block;margin:0 0 7px;font-size:10px;line-height:15px;letter-spacing:1.65px;color:var(--muted)}
+    .field{width:100%;min-height:46px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent;color:var(--text);padding:6px 0;font:400 14px/22px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:.3px;text-transform:none;outline:none}
+    .field::placeholder{color:var(--muted);text-transform:uppercase}
+    .field:focus{border-color:var(--active)}
+    .status{min-height:45px;margin-top:14px;font-size:10px;line-height:15px;letter-spacing:1.65px;color:var(--muted);display:flex;align-items:center;justify-content:center}
+    .bottom{display:grid;gap:18px}
+    .action{position:relative;width:100%;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:13px 16px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font:700 13px/19px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;letter-spacing:1.5px;text-transform:uppercase;overflow:hidden;-webkit-tap-highlight-color:transparent;touch-action:none;user-select:none}
+    .action:disabled{opacity:.42}
+    .action.holding{border-color:var(--active);color:var(--text)}
+    .progress{position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--text)}
+    .action.holding .progress{width:100%;transition:width 1.2s linear}
+    .support{margin-top:6px;font-size:10px;line-height:15px;letter-spacing:1.65px;color:var(--muted);font-weight:400}
+    .powered{margin:0;text-align:center;font-size:10px;line-height:15px;letter-spacing:1.65px;color:var(--ghost);font-weight:400}
+    [hidden]{display:none!important}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="top"><p class="brand">BELMARION</p></div>
+
+    <section id="loading" class="center">
+      <p class="title">PRIVATE CONSIDERATION.</p>
+      <p class="body">VERIFYING NOMINATION.</p>
+    </section>
+
+    <section id="form" class="center" hidden>
+      <p class="title">PRIVATE CONSIDERATION.</p>
+      <p class="body">YOU HAVE BEEN PUT FORWARD FOR PRIVATE CONSIDERATION BY BELMARION.</p>
+      <p class="body">A NOMINATION DOES NOT CONFER ACCESS. EVERY CANDIDATE IS REVIEWED PRIVATELY.</p>
+      <div class="fieldWrap">
+        <label class="fieldLabel" for="email">CONTACT EMAIL</label>
+        <input id="email" class="field" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="[ INPUT HERE ]" aria-label="Contact email">
+      </div>
+      <div id="status" class="status" aria-live="polite"></div>
+    </section>
+
+    <section id="done" class="center" hidden>
+      <p class="title">UNDER REVIEW.</p>
+      <p class="body">YOUR DETAILS HAVE BEEN RECEIVED FOR PRIVATE CONSIDERATION.</p>
+      <p class="body">NO ACCESS HAS BEEN GRANTED.</p>
+    </section>
+
+    <section id="invalid" class="center" hidden>
+      <p class="title">ACCESS LINK NOT RECOGNISED.</p>
+      <p class="body">THIS NOMINATION IS NOT AVAILABLE.</p>
+    </section>
+
+    <div id="formBottom" class="bottom" hidden>
+      <button id="submit" class="action" type="button" disabled>
+        <span>SUBMIT FOR CONSIDERATION</span>
+        <span class="support">HOLD 1.2 SECONDS</span>
+        <span class="progress" aria-hidden="true"></span>
+      </button>
+      <p class="powered">POWERED BY NOTHING INTELLIGENCE</p>
+    </div>
+    <div id="plainBottom" class="bottom"><p class="powered">POWERED BY NOTHING INTELLIGENCE</p></div>
+  </main>
+
+  <script>
+    (()=>{
+      const ENDPOINT=atob('aHR0cHM6Ly9ueGpxeWlqeWtjbnhsd294YW5yYi5zdXBhYmFzZS5jby9mdW5jdGlvbnMvdjEvYmVsbWFyaW9uLW5vbWluYXRpb24=');
+      const token=new URLSearchParams(location.search).get('t')?.trim().toLowerCase()||'';
+      const loading=document.getElementById('loading');
+      const form=document.getElementById('form');
+      const done=document.getElementById('done');
+      const invalid=document.getElementById('invalid');
+      const formBottom=document.getElementById('formBottom');
+      const plainBottom=document.getElementById('plainBottom');
+      const email=document.getElementById('email');
+      const submit=document.getElementById('submit');
+      const status=document.getElementById('status');
+      let timer=null;
+      let committed=false;
+
+      const show=(node)=>{
+        [loading,form,done,invalid].forEach(el=>el.hidden=el!==node);
+        const active=node===form;
+        formBottom.hidden=!active;
+        plainBottom.hidden=active;
+      };
+      const call=async(action,extra={})=>{
+        const response=await fetch(ENDPOINT,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          cache:'no-store',
+          body:JSON.stringify({action,token,...extra})
+        });
+        const data=await response.json().catch(()=>({}));
+        if(!response.ok) throw new Error(String(data.error||'service_unavailable'));
+        return data;
+      };
+      const emailValid=()=>/^\S+@\S+\.\S+$/.test(email.value.trim())&&email.value.trim().length<=254;
+      const resetHold=()=>{
+        if(timer) clearTimeout(timer);
+        timer=null;
+        submit.classList.remove('holding');
+        const progress=submit.querySelector('.progress');
+        progress.style.transition='none';
+        progress.style.width='0';
+        void progress.offsetWidth;
+        progress.style.transition='';
+      };
+      const commit=async()=>{
+        if(committed||submit.disabled)return;
+        committed=true;
+        resetHold();
+        submit.disabled=true;
+        email.disabled=true;
+        status.textContent='SUBMITTING.';
+        try{
+          await call('submit_contact',{contactEmail:email.value.trim().toLowerCase()});
+          show(done);
+        }catch(error){
+          committed=false;
+          email.disabled=false;
+          submit.disabled=!emailValid();
+          status.textContent=String(error.message).includes('contact_not_valid')?'CONTACT EMAIL NOT VALID.':'BELMARION IS TEMPORARILY UNAVAILABLE. TRY AGAIN.';
+        }
+      };
+      const beginHold=(event)=>{
+        if(submit.disabled||committed)return;
+        event.preventDefault();
+        resetHold();
+        submit.classList.add('holding');
+        const progress=submit.querySelector('.progress');
+        requestAnimationFrame(()=>{progress.style.width='100%';});
+        timer=setTimeout(()=>void commit(),1200);
+      };
+      const cancelHold=()=>{if(!committed)resetHold();};
+
+      email.addEventListener('input',()=>{
+        status.textContent='';
+        submit.disabled=!emailValid();
+      });
+      submit.addEventListener('pointerdown',beginHold);
+      submit.addEventListener('pointerup',cancelHold);
+      submit.addEventListener('pointercancel',cancelHold);
+      submit.addEventListener('pointerleave',cancelHold);
+      submit.addEventListener('contextmenu',event=>event.preventDefault());
+
+      if(!/^[0-9a-f]{48}$/.test(token)){show(invalid);return;}
+      call('open').then(()=>show(form)).catch(()=>show(invalid));
+    })();
+  </script>
+</body>
+</html>
