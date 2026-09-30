@@ -11,12 +11,15 @@
     :root{color-scheme:dark;--canvas:#000;--surface:#0a0a0a;--pressed:#111;--active:#cfcfcd;--text:#f1f1ef;--muted:#9b9b98;--ghost:#626260;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;background:var(--canvas);color:var(--text)}
-    body{min-height:100dvh;font-family:var(--sans);padding:calc(28px + env(safe-area-inset-top)) calc(28px + env(safe-area-inset-right)) calc(32px + env(safe-area-inset-bottom)) calc(28px + env(safe-area-inset-left))}
-    main{width:min(100%,420px);min-height:calc(100dvh - 60px - env(safe-area-inset-top) - env(safe-area-inset-bottom));margin:0 auto;display:flex;flex-direction:column}
+    body{min-height:100dvh;font-family:var(--sans);padding:calc(100px + env(safe-area-inset-top)) calc(24px + env(safe-area-inset-right)) calc(32px + env(safe-area-inset-bottom)) calc(24px + env(safe-area-inset-left))}
+    main{width:min(100%,420px);min-height:calc(100dvh - 132px - env(safe-area-inset-top) - env(safe-area-inset-bottom));margin:0 auto;display:flex;flex-direction:column}
     .top{display:flex;justify-content:center;min-height:64px;align-items:flex-start}
-    .brand{margin:8px 0 0;font-size:16px;line-height:23px;letter-spacing:4px;font-weight:600;text-transform:uppercase}
-    .center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px 0 36px}
-    .artwork{width:176px;height:176px;object-fit:contain;display:block;margin:0 auto 30px}
+    .brand{margin:0;font-size:16px;line-height:23px;letter-spacing:4px;font-weight:600;text-transform:uppercase}
+    .center{flex:1;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;padding:0 0 36px}
+    .artwork-frame{width:176px;height:176px;position:relative;overflow:hidden;flex-shrink:0;margin:0 auto 28px}
+    .artwork{position:absolute;object-fit:fill;display:block;max-width:none}
+    .company,.version{font-family:var(--mono);font-size:9px;line-height:12px;letter-spacing:.7px;color:var(--ghost);margin:0;text-transform:uppercase}
+    .company{margin-top:7px}.version{margin-top:3px;margin-bottom:30px}
     .title{margin:0;font-size:20px;line-height:28px;letter-spacing:1.45px;font-weight:600;text-transform:uppercase}
     .label{margin:28px 0 0;font-family:var(--mono);font-size:10px;line-height:15px;letter-spacing:1.55px;color:var(--muted);font-weight:400;text-transform:uppercase}
     .word{margin:18px 0 0;font-family:var(--mono);font-size:16px;line-height:23px;letter-spacing:1.4px;font-weight:400;color:var(--text)}
@@ -29,9 +32,11 @@
 </head>
 <body>
   <main>
-    <div class="top"><p class="brand">BELMARION</p></div>
     <section class="center" aria-live="polite">
-      <img class="artwork" src="/assets/belmarion-key.png" alt="Belmarion cipher key">
+      <div class="artwork-frame"><img class="artwork" style="width:193.57119476268412px;height:192.93964110929852px;left:-8.785597381342061px;top:-7.9673735725938px" src="/assets/belmarion-cipher-key.png" alt="Belmarion cipher key"></div>
+      <p class="brand">BELMARION</p>
+      <p class="company">BELMARION OPERATIONS LTD</p>
+      <p class="version">VERSION 2.0.10 (BETA)</p>
       <p class="title">CIPHER PRESENTED.</p>
       <p class="label">SINGLE-USE WORD REQUIRED</p>
       <p class="word" aria-label="Single-use word supplied separately">•••••••••</p>
