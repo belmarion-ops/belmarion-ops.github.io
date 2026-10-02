@@ -16,12 +16,13 @@
     main{width:min(100%,420px);min-height:calc(100dvh - 28px - env(safe-area-inset-top) - env(safe-area-inset-bottom));margin:0 auto;display:flex;flex-direction:column}
     .top{display:flex;justify-content:center;min-height:0;align-items:flex-start}
     .brand{margin:0;font-size:16px;line-height:23px;letter-spacing:4px;font-weight:600;text-transform:uppercase}
-    .center{flex:1;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;padding:40px 0 24px}
+    .center{flex:1;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;padding:24px 0 32px}
     .artwork-frame{position:relative;width:176px;height:176px;overflow:hidden;margin:0 auto 30px;flex-shrink:0}
     .artwork{position:absolute;/* GENERATED_PEER_GEOMETRY */width:192.31219512195122px;height:192.31219512195122px;left:-8.03089430894309px;top:-7.404878048780489px;}
     .title{margin:0;font-size:20px;line-height:28px;letter-spacing:1.45px;font-weight:600;text-transform:uppercase}
     .body{margin:18px 0 0;font-size:16px;line-height:24px;letter-spacing:.18px;color:var(--muted);font-weight:400;max-width:390px}
     .note{margin:12px 0 0;font-size:13px;line-height:20px;letter-spacing:.18px;color:var(--ghost);font-style:italic;font-weight:400;max-width:390px}
+    .body,.note,.title{overflow-wrap:anywhere}.fieldWrap + .fieldWrap{margin-top:22px}.bottom{padding-top:12px}.action{cursor:pointer}
     .fieldWrap{width:100%;margin-top:30px;text-align:left}
     .fieldLabel{display:block;margin:0 0 7px;font-family:var(--mono);font-size:11px;line-height:17px;letter-spacing:1.55px;color:var(--muted);text-transform:uppercase}
     .field{width:100%;min-height:50px;border:1px solid transparent;border-radius:2px;background:var(--surface);color:var(--text);padding:10px 14px;font:400 15px/23px var(--sans);letter-spacing:.18px;outline:none}
@@ -34,7 +35,7 @@
     .action.holding{border-color:var(--active);background:var(--pressed);color:var(--text)}
     .progress{position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--text)}
     .action.holding .progress{width:100%;transition:width 1.2s linear}
-    .support{margin-top:6px;font-family:var(--mono);font-size:11px;line-height:17px;letter-spacing:1.55px;color:var(--ghost);font-weight:400}
+    .support{width:100%;text-align:center;margin-top:6px;font-family:var(--mono);font-size:11px;line-height:17px;letter-spacing:1.55px;color:var(--ghost);font-weight:400}
     [hidden]{display:none!important}
   </style>
 </head>
@@ -52,10 +53,9 @@
       <p class="title">PRIVATE CONSIDERATION.</p>
       <p class="body">A BELMARION principal has nominated you.</p>
       <p class="note">Seats are very limited. Nomination does not confer access; admission is subject to private review and is not guaranteed.</p>
-      <p class="body">BELMARION creates experiences shaped around the individual, with privacy and discretion at every stage.</p>
       <p class="note" style="font-style:normal">NOMINATION REFERENCE · <span id="reference" style="overflow-wrap:anywhere"></span></p>
-      <p class="body">Forward this page and reference to your private office or nominated contact. Ask them to quote the reference when contacting <a href="mailto:private@belmarion.com" style="color:var(--text)">private@belmarion.com</a>, or through Signal at +44 7359 203751, to discuss admission criteria and next steps.</p>
-      <p class="body">Alternatively, provide their details below and BELMARION will initiate contact. Please obtain their permission before sharing their details.</p>
+      <p class="body">Forward this page to your nominated office contact. Quote the reference when contacting <a href="mailto:private@belmarion.com" style="color:var(--text)">private@belmarion.com</a> or Signal +44 7359 203751.</p>
+      <p class="body">Or provide your contact’s details below, with their permission, and BELMARION will initiate contact.</p>
       <p class="body"><a href="https://belmarion.com" rel="noreferrer" style="color:var(--text);text-decoration:none">DISCOVER BELMARION →</a></p>
       <div class="fieldWrap">
         <label class="fieldLabel" for="contactName">OFFICE / CONTACT NAME</label>
@@ -186,6 +186,3 @@
   </script>
 </body>
 </html>
-
-
-

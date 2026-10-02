@@ -8,7 +8,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <title>BELMARION</title>
   <style>
-    :root{color-scheme:dark;--canvas:#000;--surface:#0a0a0a;--pressed:#111;--active:#cfcfcd;--text:#f1f1ef;--quiet:#c7c7c3;--muted:#9b9b98;--ghost:#8a8a87;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;--screen-top:16px;--artwork-top:72px;--screen-horizontal:24px;--screen-bottom:12px}
+    :root{color-scheme:dark;--canvas:#000;--surface:#0a0a0a;--pressed:#111;--active:#cfcfcd;--text:#f1f1ef;--quiet:#c7c7c3;--muted:#9b9b98;--ghost:#8a8a87;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;--screen-top:16px;--artwork-top:24px;--screen-horizontal:24px;--screen-bottom:12px}
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;background:var(--canvas);color:var(--text)}
     body{min-height:100dvh;font-family:var(--sans);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
@@ -22,6 +22,7 @@
     .title{margin:0;font-size:22px;line-height:29px;letter-spacing:1.5px;font-weight:500;text-transform:uppercase;color:var(--quiet)}
     .label{margin:28px 0 0;font-family:var(--mono);font-size:11px;line-height:17px;letter-spacing:1.55px;color:var(--muted);font-weight:400;text-transform:uppercase}
     .support{margin:18px 0 0;font-family:var(--mono);font-size:11px;line-height:17px;letter-spacing:1.55px;color:var(--ghost);font-weight:400;max-width:330px;text-transform:uppercase}
+    .title,.label,.support{overflow-wrap:anywhere} @media(max-height:700px){.artwork-frame{margin-bottom:20px}.version{margin-bottom:22px}.label{margin-top:20px}}
     .bottom{display:grid;gap:18px;margin-top:8px;margin-bottom:12px}
     .action{position:relative;display:flex;min-height:58px;align-items:center;justify-content:center;padding:14px 16px;border:1px solid transparent;border-radius:2px;background:var(--surface);color:var(--muted);text-decoration:none;font-size:14px;line-height:20px;letter-spacing:1.6px;font-weight:600;text-align:center;text-transform:uppercase;overflow:hidden;-webkit-tap-highlight-color:transparent}
     .action:active,.action:focus-visible{background:var(--pressed);border-color:var(--active);color:var(--text);outline:none}
@@ -33,10 +34,10 @@
       <div class="artwork-frame"><img class="artwork" style="width:193.57119476268412px;height:192.93964110929852px;left:-8.785597381342061px;top:-7.9673735725938px" src="/assets/belmarion-cipher-key.png" alt="Belmarion cipher key"></div>
       <p class="brand">BELMARION</p>
       <p class="company">BELMARION OPERATIONS LTD</p>
-      <p class="version">BETA 2.1.7</p>
+      <p class="version">BETA 2.1.8</p>
       <p class="title">CIPHER PRESENTED.</p>
-      <p class="label">SINGLE-USE WORD REQUIRED</p>
-      <p class="support">SUPPLIED SEPARATELY. VALID ONCE.</p>
+      <p class="label">SECRET WORD REQUIRED</p>
+      <p class="support">SUPPLIED SEPARATELY. YOUR ADMISSION TERMS APPLY.</p>
     </section>
     <div class="bottom">
       <a id="open" class="action" href="/cipher/">OPEN BELMARION →</a>
@@ -50,4 +51,3 @@
   </script>
 </body>
 </html>
-
