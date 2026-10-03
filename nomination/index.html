@@ -17,7 +17,7 @@
     .brand{margin:0;text-align:center;font-size:15px;line-height:22px;letter-spacing:4.8px;font-weight:600;text-transform:uppercase}
     .center{display:flex;flex:1;flex-direction:column;align-items:center;text-align:center;padding:34px 0 18px}
     .artwork-frame{position:relative;width:154px;height:154px;overflow:hidden;margin:0 auto 26px;flex-shrink:0}
-    .artwork{position:absolute;/* GENERATED_PEER_GEOMETRY */width:168.27317073170732px;height:168.27317073170732px;left:-7.026016260162603px;top:-6.478048780487805px}
+    .artwork{position:absolute;/* GENERATED_PEER_GEOMETRY */width:168.27317073170732px;height:168.27317073170732px;left:-7.027032520325207px;top:-6.4792682926829315px;}
     .title{margin:0;font-size:19px;line-height:27px;letter-spacing:1.8px;font-weight:600;text-transform:uppercase}
     .body{margin:14px 0 0;font-size:15px;line-height:23px;letter-spacing:.12px;color:var(--muted);font-weight:400;max-width:360px}
     .note{margin:10px 0 0;font-size:12px;line-height:19px;letter-spacing:.15px;color:var(--ghost);font-weight:400;max-width:360px}
@@ -99,7 +99,7 @@
         <span class="progress" aria-hidden="true"></span>
       </button>
     </div>
-    <div id="plainBottom" class="bottom"></div>
+    <div id="plainBottom" class="bottom"><button id="retry" class="action" type="button" hidden>RETRY VERIFICATION →</button></div>
   </main>
 
   <script>
@@ -125,15 +125,19 @@
         plainBottom.hidden=active;
       };
       const call=async(action,extra={})=>{
+        const controller=new AbortController();
+        const deadline=setTimeout(()=>controller.abort(),25000);
+        try {
         const response=await fetch(ENDPOINT,{
-          method:'POST',signal:AbortSignal.timeout(25000),
+          method:'POST',signal:controller.signal,
           headers:{'Content-Type':'application/json'},
           cache:'no-store',
           body:JSON.stringify({action,token,...extra})
         });
         const data=await response.json().catch(()=>({}));
-        if(!response.ok) throw new Error(String(data.error||'service_unavailable'));
+        if(!response.ok){const error=new Error(String(data.error||'service_unavailable'));error.status=response.status;throw error;}
         return data;
+        } finally {clearTimeout(deadline);}
       };
       const emailValid=()=>/^\S+@\S+\.\S+$/.test(email.value.trim())&&email.value.trim().length<=254;
       const resetHold=()=>{
@@ -151,7 +155,7 @@
         committed=true;
         resetHold();
         submit.disabled=true;
-        email.disabled=true;
+        form.querySelectorAll('input').forEach(input=>input.disabled=true);
         status.textContent='SUBMITTING.';
         try{
           await call('submit_contact',{
@@ -162,7 +166,7 @@
           show(done);
         }catch(error){
           committed=false;
-          email.disabled=false;
+          form.querySelectorAll('input').forEach(input=>input.disabled=false);
           submit.disabled=!emailValid();
           status.textContent=String(error.message).includes('contact_not_valid')?'CONTACT EMAIL NOT VALID.':'BELMARION IS TEMPORARILY UNAVAILABLE. TRY AGAIN.';
         }
@@ -192,11 +196,26 @@
       submit.addEventListener('blur',cancelHold);
       document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelHold();});
 
-      if(!/^[0-9a-f]{48}$/.test(token)){show(invalid);return;}
-      call('open').then(data=>{
-        document.getElementById('reference').textContent=data.reference;
-        show(form);
-      }).catch(()=>show(invalid));
+      const retry=document.getElementById('retry');
+      const openNomination=async()=>{
+        retry.hidden=true;
+        if(!/^[0-9a-f]{48}$/.test(token)){show(invalid);return;}
+        loading.querySelector('.title').textContent='PRIVATE CONSIDERATION';
+        loading.querySelector('.body').textContent='VERIFYING NOMINATION.';
+        show(loading);
+        try {
+          const data=await call('open');
+          document.getElementById('reference').textContent=data.reference;
+          show(form);
+        } catch(error) {
+          if([400,401,404,409,410].includes(error.status)){show(invalid);return;}
+          loading.querySelector('.title').textContent='VERIFICATION PAUSED';
+          loading.querySelector('.body').textContent='Your link is held. Reconnect and try again.';
+          retry.hidden=false;
+        }
+      };
+      retry.addEventListener('click',()=>void openNomination());
+      void openNomination();
     })();
   </script>
 </body>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
+  <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <title>BELMARION</title>
   <style>
@@ -26,28 +27,49 @@
     .bottom{display:grid;gap:18px;margin-top:8px;margin-bottom:12px}
     .action{position:relative;display:flex;min-height:58px;align-items:center;justify-content:center;padding:14px 16px;border:1px solid transparent;border-radius:2px;background:var(--surface);color:var(--muted);text-decoration:none;font-size:14px;line-height:20px;letter-spacing:1.6px;font-weight:600;text-align:center;text-transform:uppercase;overflow:hidden;-webkit-tap-highlight-color:transparent}
     .action:active,.action:focus-visible{background:var(--pressed);border-color:var(--active);color:var(--text);outline:none}
-  </style>
+  
+[hidden]{display:none!important}
+.help{font-size:14px;line-height:22px;color:var(--muted);text-align:center;margin:0 0 12px}.support a{color:var(--text)}
+</style>
 </head>
 <body>
   <main>
-    <section class="center" aria-live="polite">
+    <section id="cipher" class="center" hidden aria-live="polite">
       <div class="artwork-frame"><img class="artwork" style="width:193.57119476268412px;height:192.93964110929852px;left:-8.785597381342061px;top:-7.9673735725938px" src="/assets/belmarion-cipher-key.png" alt="Belmarion cipher key"></div>
       <p class="brand">BELMARION</p>
       <p class="company">BELMARION OPERATIONS LTD</p>
-      <p class="version">BETA 2.1.8</p>
+      <p class="version">BETA 2.2.0</p>
       <p class="title">CIPHER PRESENTED.</p>
       <p class="label">SECRET WORD REQUIRED</p>
-      <p class="support">SUPPLIED SEPARATELY. YOUR ADMISSION TERMS APPLY.</p>
+      <p class="support">SUPPLIED WITH YOUR PRIVATE ADMISSION. YOUR ADMISSION TERMS APPLY.</p>
     </section>
-    <div class="bottom">
-      <a id="open" class="action" href="/cipher/">OPEN BELMARION →</a>
-      
+    <section id="closed" class="center" aria-live="polite">
+      <div class="artwork-frame"><img class="artwork" style="width:176px;height:175.47774480712167px;left:0.11458333333333393px;top:0.6038575667655781px" src="/assets/belmarion-app-padlock.png" alt="Belmarion private access"></div>
+      <p class="brand">BELMARION</p>
+      <p class="company">BELMARION OPERATIONS LTD</p>
+      <p class="version">BETA 2.2.0</p>
+      <p class="title">PRIVATE ACCESS.</p>
+      <p class="support">OPEN THE PRIVATE CIPHER LINK SUPPLIED WITH YOUR ADMISSION.</p>
+    </section>
+    <div id="cipherBottom" class="bottom" hidden>
+      <a id="open" class="action" href="/cipher/">OPEN BELMARION</a>
+      <p class="help">Use the Android device with BELMARION installed. If the app does not open, install the private build supplied by your office, then return to your original admission link.</p>
     </div>
+    <div id="closedBottom" class="bottom"><p class="support">Install the private Android build supplied by your nominated office before opening your Cipher link. For assistance, contact your office or <a href="mailto:private@belmarion.com">private@belmarion.com</a>.</p></div>
   </main>
   <script>
-    const link=document.getElementById('open');
     const match=location.pathname.match(/^\/cipher\/([0-9a-f]{48})\/?$/i);
-    if(match) link.href=`https://belmarion-ops.github.io/cipher/${match[1].toLowerCase()}`;
+    if(match){
+      document.getElementById('cipher').hidden=false;
+      document.getElementById('closed').hidden=true;
+      document.getElementById('cipherBottom').hidden=false;
+      document.getElementById('closedBottom').hidden=true;
+      const token=match[1].toLowerCase();
+      const fallback=encodeURIComponent('https://belmarion-ops.github.io/cipher/?install=required');
+      document.getElementById('open').href=/Android/i.test(navigator.userAgent)
+        ? `intent://cipher?t=${token}#Intent;scheme=belmarion;package=com.projectnobody.founderqa;S.browser_fallback_url=${fallback};end`
+        : `belmarion://cipher?t=${token}`;
+    }
   </script>
 </body>
 </html>
