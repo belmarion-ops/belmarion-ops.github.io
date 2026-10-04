@@ -48,14 +48,14 @@
 
     <section id="loading" class="center">
       <p class="title">PRIVATE CONSIDERATION</p>
-      <p class="body">VERIFYING NOMINATION.</p>
+      <p class="body">Opening your introduction…</p>
     </section>
 
     <section id="form" class="center" hidden>
       <div class="artwork-frame"><img class="artwork" src="/assets/belmarion-peer-handshake-2.1.3.png" alt="Belmarion peer nomination mark"></div>
       <p class="title">PRIVATE CONSIDERATION</p>
-      <p class="body">A BELMARION principal has nominated you.</p>
-      <p class="note">Nomination does not confer access. Admission remains subject to private review.</p>
+      <p class="body">Someone has privately introduced you to BELMARION.</p>
+      <p class="note">If you are interested, let us know how to reach you. We will consider your interest and reply privately.</p>
       <p class="reference">REFERENCE · <span id="reference"></span></p>
 
       <div class="divider"></div>
@@ -82,9 +82,9 @@
 
     <section id="done" class="center" hidden>
       <div class="artwork-frame"><img class="artwork" src="/assets/belmarion-peer-handshake-2.1.3.png" alt="Belmarion peer nomination mark"></div>
-      <p class="title">UNDER REVIEW</p>
-      <p class="body">The nominated contact details have been received.</p>
-      <p class="note">No access has been granted.</p>
+      <p class="title">THANK YOU</p>
+      <p class="body">Your interest has reached BELMARION. We will respond through the contact you provided.</p>
+      <p class="note">You do not need to do anything else now.</p>
     </section>
 
     <section id="invalid" class="center" hidden>
@@ -94,7 +94,7 @@
 
     <div id="formBottom" class="bottom" hidden>
       <button id="submit" class="action" type="button" disabled>
-        <span>SUBMIT FOR CONSIDERATION</span>
+        <span>SEND MY INTEREST</span>
         <span class="support">HOLD 1.2 SECONDS</span>
         <span class="progress" aria-hidden="true"></span>
       </button>
@@ -156,7 +156,7 @@
         resetHold();
         submit.disabled=true;
         form.querySelectorAll('input').forEach(input=>input.disabled=true);
-        status.textContent='SUBMITTING.';
+        status.textContent='Sending…';
         try{
           await call('submit_contact',{
             contactEmail:email.value.trim().toLowerCase(),
@@ -168,7 +168,7 @@
           committed=false;
           form.querySelectorAll('input').forEach(input=>input.disabled=false);
           submit.disabled=!emailValid();
-          status.textContent=String(error.message).includes('contact_not_valid')?'CONTACT EMAIL NOT VALID.':'BELMARION IS TEMPORARILY UNAVAILABLE. TRY AGAIN.';
+          status.textContent=String(error.message).includes('contact_not_valid')?'Please check the email address.':'We could not confirm the submission. Your details are held here; please try again.';
         }
       };
       const beginHold=(event)=>{
@@ -201,7 +201,7 @@
         retry.hidden=true;
         if(!/^[0-9a-f]{48}$/.test(token)){show(invalid);return;}
         loading.querySelector('.title').textContent='PRIVATE CONSIDERATION';
-        loading.querySelector('.body').textContent='VERIFYING NOMINATION.';
+        loading.querySelector('.body').textContent='Opening your introduction…';
         show(loading);
         try {
           const data=await call('open');
