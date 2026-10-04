@@ -7,10 +7,10 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <title>BELMARION</title>
   <style>
-    :root{color-scheme:dark}
+    :root{--safe-top:env(safe-area-inset-top,0px);--safe-right:env(safe-area-inset-right,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);color-scheme:dark}
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;background:#000;color:#ededed}
-    body{min-height:100dvh;display:grid;place-items:center;padding:calc(28px + env(safe-area-inset-top)) calc(24px + env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) calc(24px + env(safe-area-inset-left));font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
+    body{min-height:100dvh;display:grid;place-items:center;padding:calc(28px + var(--safe-top)) calc(24px + var(--safe-right)) calc(28px + var(--safe-bottom)) calc(24px + var(--safe-left));font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
     main{text-align:center;max-width:34rem}
     .brand{font-size:1.05rem;letter-spacing:.32em;margin:0 0 1.15rem}
     .line{font-size:.72rem;letter-spacing:.18em;color:#9b9b98;line-height:1.8;margin:0}

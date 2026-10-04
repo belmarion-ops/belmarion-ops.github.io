@@ -9,11 +9,11 @@
   <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
   <title>BELMARION</title>
   <style>
-    :root{color-scheme:dark;--canvas:#000;--surface:#090909;--pressed:#101010;--active:#d4d4d1;--text:#f1f1ef;--muted:#a0a09d;--ghost:#777774;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
+    :root{--safe-top:env(safe-area-inset-top,0px);--safe-right:env(safe-area-inset-right,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);color-scheme:dark;--canvas:#000;--surface:#090909;--pressed:#101010;--active:#d4d4d1;--text:#f1f1ef;--muted:#a0a09d;--ghost:#777774;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;background:var(--canvas);color:var(--text)}
-    body{min-height:100dvh;font-family:var(--sans);padding:calc(18px + env(safe-area-inset-top)) calc(22px + env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) calc(22px + env(safe-area-inset-left))}
-    main{width:min(100%,410px);margin:0 auto;display:flex;min-height:calc(100dvh - 36px - env(safe-area-inset-top) - env(safe-area-inset-bottom));flex-direction:column}
+    body{min-height:100dvh;font-family:var(--sans);padding:calc(18px + var(--safe-top)) calc(22px + var(--safe-right)) calc(18px + var(--safe-bottom)) calc(22px + var(--safe-left))}
+    main{width:min(100%,410px);margin:0 auto;display:flex;min-height:calc(100dvh - 36px - var(--safe-top) - var(--safe-bottom));flex-direction:column}
     .brand{margin:0;text-align:center;font-size:15px;line-height:22px;letter-spacing:4.8px;font-weight:600;text-transform:uppercase}
     .center{display:flex;flex:1;flex-direction:column;align-items:center;text-align:center;padding:34px 0 18px}
     .artwork-frame{position:relative;width:154px;height:154px;overflow:hidden;margin:0 auto 26px;flex-shrink:0}
