@@ -16,8 +16,9 @@
     main{width:min(100%,410px);margin:0 auto;display:flex;min-height:calc(100dvh - 36px - var(--safe-top) - var(--safe-bottom));flex-direction:column}
     .brand{margin:0;text-align:center;font-size:15px;line-height:22px;letter-spacing:4.8px;font-weight:600;text-transform:uppercase}
     .center{display:flex;flex:1;flex-direction:column;align-items:center;text-align:center;padding:34px 0 18px}
+    #invalid{justify-content:center;padding-top:18px;padding-bottom:18px}
     .artwork-frame{position:relative;width:154px;height:154px;overflow:hidden;margin:0 auto 26px;flex-shrink:0}
-    .artwork{position:absolute;/* GENERATED_PEER_GEOMETRY */width:168.27317073170732px;height:168.27317073170732px;left:-7.027032520325207px;top:-6.4792682926829315px;}
+    .artwork{position:absolute;width:168.27317073170732px;height:168.27317073170732px;left:-7.027032520325207px;top:-6.4792682926829315px}
     .title{margin:0;font-size:19px;line-height:27px;letter-spacing:1.8px;font-weight:600;text-transform:uppercase}
     .body{margin:14px 0 0;font-size:15px;line-height:23px;letter-spacing:.12px;color:var(--muted);font-weight:400;max-width:360px}
     .note{margin:10px 0 0;font-size:12px;line-height:19px;letter-spacing:.15px;color:var(--ghost);font-weight:400;max-width:360px}
@@ -29,16 +30,14 @@
     .fieldWrap + .fieldWrap{margin-top:18px}
     .fieldLabel{display:block;margin:0 0 7px;font-family:var(--mono);font-size:10.5px;line-height:16px;letter-spacing:1.45px;color:var(--muted);text-transform:uppercase}
     .field{width:100%;min-height:50px;border:1px solid transparent;border-radius:2px;background:var(--surface);color:var(--text);padding:11px 14px;font:400 15px/22px var(--sans);letter-spacing:.1px;outline:none}
-    .field::placeholder{color:#666663}
-    .field:focus{border-color:var(--active);background:var(--pressed)}
+    .field::placeholder{color:#666663}.field:focus{border-color:var(--active);background:var(--pressed)}
     .status{min-height:34px;margin-top:12px;font-family:var(--mono);font-size:10.5px;line-height:17px;letter-spacing:1.35px;color:var(--muted);display:flex;align-items:center;justify-content:center;text-transform:uppercase}
     .bottom{display:grid;gap:14px;padding-top:12px}
     .action{position:relative;width:100%;min-height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:13px 16px;border:1px solid transparent;border-radius:2px;background:var(--surface);color:var(--muted);font:600 13px/19px var(--sans);letter-spacing:1.45px;text-transform:uppercase;overflow:hidden;-webkit-tap-highlight-color:transparent;touch-action:none;user-select:none}
     .action:disabled{opacity:.38}.action.holding{border-color:var(--active);background:var(--pressed);color:var(--text)}
     .progress{position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--text)}.action.holding .progress{width:100%;transition:width 1.2s linear}
     .support{width:100%;text-align:center;margin-top:5px;font-family:var(--mono);font-size:9.5px;line-height:15px;letter-spacing:1.25px;color:var(--ghost);font-weight:400}
-    .footer{margin-top:22px;text-align:center;font-size:11px;line-height:18px;color:#696966}
-    .footer a{text-decoration:none;color:#888885}
+    .footer{margin-top:22px;text-align:center;font-size:11px;line-height:18px;color:#696966}.footer a{text-decoration:none;color:#888885}
     [hidden]{display:none!important}
   </style>
 </head>
@@ -127,34 +126,29 @@
       const call=async(action,extra={})=>{
         const controller=new AbortController();
         const deadline=setTimeout(()=>controller.abort(),25000);
-        try {
-        const response=await fetch(ENDPOINT,{
-          method:'POST',signal:controller.signal,
-          headers:{'Content-Type':'application/json'},
-          cache:'no-store',
-          body:JSON.stringify({action,token,...extra})
-        });
-        const data=await response.json().catch(()=>({}));
-        if(!response.ok){const error=new Error(String(data.error||'service_unavailable'));error.status=response.status;throw error;}
-        return data;
-        } finally {clearTimeout(deadline);}
+        try{
+          const response=await fetch(ENDPOINT,{
+            method:'POST',signal:controller.signal,
+            headers:{'Content-Type':'application/json'},
+            cache:'no-store',
+            body:JSON.stringify({action,token,...extra})
+          });
+          const data=await response.json().catch(()=>({}));
+          if(!response.ok){const error=new Error(String(data.error||'service_unavailable'));error.status=response.status;throw error;}
+          return data;
+        }finally{clearTimeout(deadline);}
       };
       const emailValid=()=>/^\S+@\S+\.\S+$/.test(email.value.trim())&&email.value.trim().length<=254;
       const resetHold=()=>{
-        if(timer) clearTimeout(timer);
+        if(timer)clearTimeout(timer);
         timer=null;
         submit.classList.remove('holding');
         const progress=submit.querySelector('.progress');
-        progress.style.transition='none';
-        progress.style.width='0';
-        void progress.offsetWidth;
-        progress.style.transition='';
+        progress.style.transition='none';progress.style.width='0';void progress.offsetWidth;progress.style.transition='';
       };
       const commit=async()=>{
         if(committed||submit.disabled)return;
-        committed=true;
-        resetHold();
-        submit.disabled=true;
+        committed=true;resetHold();submit.disabled=true;
         form.querySelectorAll('input').forEach(input=>input.disabled=true);
         status.textContent='Sending…';
         try{
@@ -165,27 +159,20 @@
           });
           show(done);
         }catch(error){
-          committed=false;
-          form.querySelectorAll('input').forEach(input=>input.disabled=false);
+          committed=false;form.querySelectorAll('input').forEach(input=>input.disabled=false);
           submit.disabled=!emailValid();
           status.textContent=String(error.message).includes('contact_not_valid')?'Please check the email address.':'We could not confirm the submission. Your details are held here; please try again.';
         }
       };
       const beginHold=(event)=>{
         if(submit.disabled||committed)return;
-        event.preventDefault();
-        resetHold();
-        submit.classList.add('holding');
-        const progress=submit.querySelector('.progress');
-        requestAnimationFrame(()=>{progress.style.width='100%';});
+        event.preventDefault();resetHold();submit.classList.add('holding');
+        const progress=submit.querySelector('.progress');requestAnimationFrame(()=>{progress.style.width='100%';});
         timer=setTimeout(()=>void commit(),1200);
       };
       const cancelHold=()=>{if(!committed)resetHold();};
 
-      email.addEventListener('input',()=>{
-        status.textContent='';
-        submit.disabled=!emailValid();
-      });
+      email.addEventListener('input',()=>{status.textContent='';submit.disabled=!emailValid();});
       submit.addEventListener('pointerdown',beginHold);
       submit.addEventListener('pointerup',cancelHold);
       submit.addEventListener('pointercancel',cancelHold);
@@ -203,11 +190,11 @@
         loading.querySelector('.title').textContent='PRIVATE CONSIDERATION';
         loading.querySelector('.body').textContent='Opening your introduction…';
         show(loading);
-        try {
+        try{
           const data=await call('open');
           document.getElementById('reference').textContent=data.reference;
           show(form);
-        } catch(error) {
+        }catch(error){
           if([400,401,404,409,410].includes(error.status)){show(invalid);return;}
           loading.querySelector('.title').textContent='VERIFICATION PAUSED';
           loading.querySelector('.body').textContent='Your link is held. Reconnect and try again.';
