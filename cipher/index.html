@@ -67,7 +67,7 @@
       const token=match[1].toLowerCase();
       const fallback=encodeURIComponent('https://belmarion-ops.github.io/cipher/?install=required');
       document.getElementById('open').href=/Android/i.test(navigator.userAgent)
-        ? `intent://cipher?t=${token}#Intent;scheme=belmarion;package=com.projectnobody.founderqa;S.browser_fallback_url=${fallback};end`
+        ? `intent://cipher?t=${token}#Intent;scheme=belmarion;package=com.belmarion.app;S.browser_fallback_url=${fallback};end`
         : `belmarion://cipher?t=${token}`;
     }
   </script>
