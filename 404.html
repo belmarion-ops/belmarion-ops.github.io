@@ -9,27 +9,27 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <title>BELMARION</title>
   <style>
-    :root{--safe-top:env(safe-area-inset-top,0px);--safe-right:env(safe-area-inset-right,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);color-scheme:dark;--canvas:#000;--surface:#0a0a0a;--pressed:#111;--active:#cfcfcd;--text:#f1f1ef;--quiet:#c7c7c3;--muted:#9b9b98;--ghost:#8a8a87;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;--screen-top:16px;--artwork-top:16px;--screen-horizontal:24px;--screen-bottom:12px}
+    :root{--safe-top:env(safe-area-inset-top,0px);--safe-right:env(safe-area-inset-right,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);color-scheme:dark;--ivory:#F1F1ED;--accent:#D6D0BC;--canvas:#000;--surface:#0a0a0a;--pressed:#111;--active:#cfcfcd;--text:#f1f1ef;--quiet:#c7c7c3;--muted:#9B9B98;--ghost:#8A8A87;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;--screen-top:16px;--artwork-top:16px;--screen-horizontal:24px;--screen-bottom:12px}
     *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:var(--canvas);color:var(--text)}
+    html,body{margin:0;min-height:100%;background:var(--canvas);color:var(--ivory)}
     body{min-height:100dvh;font-family:var(--sans);padding:var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left)}
     main{width:min(100%,420px);min-height:calc(100dvh - var(--safe-top) - var(--safe-bottom));margin:0 auto;display:flex;flex-direction:column;padding:var(--screen-top) var(--screen-horizontal) var(--screen-bottom)}
-    .brand{margin:0;font-size:16px;line-height:23px;letter-spacing:4px;font-weight:600;text-transform:uppercase;color:var(--text)}
+    .brand{margin:0;font-size:16px;line-height:23px;letter-spacing:4px;font-weight:600;text-transform:uppercase;color:var(--ivory)}
     .center{flex:1;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;padding:var(--artwork-top) 0 24px}
     .artwork-frame{width:176px;height:176px;position:relative;overflow:hidden;flex-shrink:0;margin:0 auto 28px}
     .artwork{position:absolute;object-fit:fill;display:block;max-width:none}
     .company,.version{font-family:var(--sans);font-size:11px;line-height:17px;letter-spacing:.25px;color:var(--ghost);margin:0}.company{text-transform:uppercase;letter-spacing:.7px}
     .company{margin-top:7px}.version{margin-top:3px;margin-bottom:30px}
-    .title{margin:0;font-size:22px;line-height:29px;letter-spacing:1.5px;font-weight:500;text-transform:uppercase;color:var(--quiet)}
+    .title{margin:0;font-size:22px;line-height:29px;letter-spacing:1.5px;font-weight:500;text-transform:uppercase;color:var(--ivory)}
     .label{margin:28px 0 0;font-family:var(--mono);font-size:11px;line-height:17px;letter-spacing:1.55px;color:var(--muted);font-weight:400;text-transform:uppercase}
     .support{margin:18px 0 0;font-family:var(--sans);font-size:13px;line-height:20px;letter-spacing:.15px;color:var(--ghost);font-weight:400;max-width:330px}
     .title,.label,.support{overflow-wrap:anywhere}
     @media(max-height:700px){.artwork-frame{margin-bottom:20px}.version{margin-bottom:22px}.label{margin-top:20px}}
     .bottom{display:grid;gap:18px;margin-top:8px;margin-bottom:12px}
-    .action{position:relative;display:flex;min-height:58px;align-items:center;justify-content:center;padding:14px 16px;border:1px solid transparent;border-radius:2px;background:var(--surface);color:var(--muted);text-decoration:none;font-size:14px;line-height:20px;letter-spacing:1.6px;font-weight:600;text-align:center;text-transform:uppercase;overflow:hidden;-webkit-tap-highlight-color:transparent}
-    .action:active,.action:focus-visible{background:var(--pressed);border-color:var(--active);color:var(--text);outline:none}
+    .action{position:relative;display:flex;min-height:58px;align-items:center;justify-content:center;padding:14px 16px;border:1px solid transparent;border-radius:2px;background:var(--surface);color:var(--accent);text-decoration:none;font-size:14px;line-height:20px;letter-spacing:1.6px;font-weight:600;text-align:center;text-transform:uppercase;overflow:hidden;-webkit-tap-highlight-color:transparent}
+    .action:active,.action:focus-visible{background:var(--pressed);border-color:var(--active);color:var(--accent);outline:none}
     [hidden]{display:none!important}
-    .help{font-size:14px;line-height:22px;color:var(--muted);text-align:center;margin:0 0 12px}.support a{color:var(--text)}
+    .help{font-size:14px;line-height:22px;color:var(--muted);text-align:center;margin:0 0 12px}.support a{color:var(--accent)}
   </style>
 </head>
 <body>
